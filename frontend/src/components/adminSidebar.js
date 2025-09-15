@@ -15,7 +15,6 @@ import {
   NotebookText,
   Inbox,
 } from "lucide-react";
-import AdminSidebar from "@/components/adminSidebar";
 
 const sidebarItems = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/admin/dashboard" },
