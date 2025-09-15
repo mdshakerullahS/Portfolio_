@@ -1,0 +1,8 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Global Logs
+*.log
