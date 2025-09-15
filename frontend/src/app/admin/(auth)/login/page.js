@@ -23,8 +23,7 @@ const Page = () => {
         throw new Error("Failed to login");
       }
 
-      const resData = await res.json();
-      console.log(resData);
+      await res.json();
 
       reset();
       router.push("/admin/dashboard");

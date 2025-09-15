@@ -35,7 +35,7 @@ const Skills = () => {
   return (
     <section
       className={`${
-        skills.length < 1 ? "hidden" : "flex"
+        skills.length <= 0 ? "hidden" : "flex"
       } flex-col items-center gap-4 md:gap-5 lg:gap-6 py-8 md:py-10 lg:py-12`}
     >
       <h2 className="text-lg md:text-xl lg:text-2xl text-foreground font-bold">
