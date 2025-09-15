@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { FileUp, Plus } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 const BlogForm = ({ setArticles }) => {
   const [open, setOpen] = useState(false);
@@ -104,8 +105,10 @@ const BlogForm = ({ setArticles }) => {
               />
 
               {file instanceof File && (
-                <img
+                <Image
                   src={URL.createObjectURL(file)}
+                  width={256}
+                  height={64}
                   alt="Preview"
                   className="mt-2 w-32 h-20 object-cover rounded"
                 />

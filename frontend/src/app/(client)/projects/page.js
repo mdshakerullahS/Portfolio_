@@ -5,7 +5,7 @@ import { ArrowRight, SquareArrowOutUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const page = () => {
+const Page = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -85,4 +85,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

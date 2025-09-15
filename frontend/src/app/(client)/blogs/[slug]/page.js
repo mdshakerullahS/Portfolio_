@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const [articles, setArticles] = useState([]);
 
   const { slug } = React.use(params);
@@ -60,4 +60,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

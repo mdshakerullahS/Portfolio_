@@ -6,7 +6,7 @@ import { Trash, X } from "lucide-react";
 import Image from "next/image";
 import BlogEditForm from "@/components/blogEditForm";
 
-const page = () => {
+const Page = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [articles, setArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState(null);
@@ -130,4 +130,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

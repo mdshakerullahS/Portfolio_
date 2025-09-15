@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 import StackIcon from "tech-stack-icons";
 
-const page = () => {
+const Page = () => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [skills, setSkills] = useState([]);
@@ -104,4 +104,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

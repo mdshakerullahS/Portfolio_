@@ -9,7 +9,7 @@ const About = () => {
       </h2>
       <div className="bg-card/1 px-4 md:px-6 lg:px-8 py-4 lg:py-6 rounded-md border border-border shadow-lg backdrop-blur-md">
         <p className="text-card-foreground lg:text-lg pl-4 lg:pl-6 py-2 border-l-2 border-border">
-          I'm a full-stack developer skilled in&nbsp;
+          I&apos;m a full-stack developer skilled in&nbsp;
           <strong>
             React.js, Next.js, Tailwind CSS, Node.js, Express.js, and MongoDB
           </strong>
@@ -24,14 +24,14 @@ const About = () => {
           <br />
           Passionate about problem-solving and continuous learning, I focus on
           writing efficient code, following best practices, and delivering
-          meaningful digital experiences. I'm particularly interested in
+          meaningful digital experiences. I&apos;m particularly interested in
           building tools that improve productivity and user engagement.
           <br />
           <br />
-          Currently, I'm seeking remote internship or freelance opportunities
-          where I can apply my skills, contribute to impactful projects, and
-          grow as a developer. Outside of coding, I explore design tools
-          like&nbsp;
+          Currently, I&apos;m seeking remote internship or freelance
+          opportunities where I can apply my skills, contribute to impactful
+          projects, and grow as a developer. Outside of coding, I explore design
+          tools like&nbsp;
           <strong>Figma</strong> and keep up with emerging technologies to stay
           ahead in the field.
         </p>

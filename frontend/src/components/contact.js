@@ -38,8 +38,8 @@ const Contact = () => {
       <div className="text-center">
         <h2 className="text-2xl text-foreground font-bold">Get In Touch</h2>
         <p className="text-foreground">
-          Have a project in mind or want to collaborate? I'd love to hear from
-          you!
+          Have a project in mind or want to collaborate? I&apos;d love to hear
+          from you!
         </p>
       </div>
       <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-[4%] p-[2%]">
@@ -47,7 +47,7 @@ const Contact = () => {
           <div>
             <h4 className="font-bold">Send me a message</h4>
             <p className="text-sm text-muted-foreground">
-              Fill out the form below and I'll get back to you as soon as
+              Fill out the form below and I&apos;ll get back to you as soon as
               possible.
             </p>
           </div>

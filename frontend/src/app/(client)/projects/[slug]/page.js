@@ -1,4 +1,6 @@
-const page = async ({ params }) => {
+import Image from "next/image";
+
+const Page = async ({ params }) => {
   const { slug } = await params;
 
   try {
@@ -48,4 +50,4 @@ const page = async ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

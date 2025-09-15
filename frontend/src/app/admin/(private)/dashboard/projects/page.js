@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import ProjectForm from "@/components/projectForm";
 import { Edit, Trash, X } from "lucide-react";
 import ProjectEditForm from "@/components/projectEditForm";
+import Image from "next/image";
 
-const page = () => {
+const Page = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -128,4 +129,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

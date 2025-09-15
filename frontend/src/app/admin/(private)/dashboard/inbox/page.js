@@ -4,7 +4,7 @@ import { Trash, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const page = () => {
+const Page = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [selectedMessage, setSelectedMessage] = useState(null);
@@ -116,4 +116,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

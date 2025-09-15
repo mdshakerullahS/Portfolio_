@@ -4,7 +4,7 @@ import TestimonialForm from "@/components/testimonialForm";
 import { Edit, Trash, X } from "lucide-react";
 import { useState } from "react";
 
-const page = () => {
+const Page = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -62,4 +62,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 import { Link2, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -29,28 +27,14 @@ const navItems = [
 const MobileNav = ({ isMobileOpen, setIsMobileOpen }) => {
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (!isMobileOpen) return;
-
-    const handleClick = () => setIsMobileOpen(false);
-
-    document.getElementById("overlay").addEventListener("click", handleClick);
-
-    return () => {
-      document
-        .getElementById("overlay")
-        .removeEventListener("click", handleClick);
-    };
-  }, [isMobileOpen]);
-
   return (
     <>
       <div
-        id="overlay"
+        onClick={() => setIsMobileOpen(false)}
         className={`w-[100vw] h-[100vh] ${
           !isMobileOpen ? "hidden" : "block"
         } absolute inset-0 z-50`}
-      ></div>
+      />
       <div
         className={`bg-background p-2 lg:hidden min-w-[300px] min-h-[100vh] absolute top-[-8px] ${
           isMobileOpen ? "right-[-20px]" : "right-[-480px]"
@@ -84,7 +68,7 @@ const MobileNav = ({ isMobileOpen, setIsMobileOpen }) => {
 
         <Link href="/contact">
           <Button className="flex items-end mt-12">
-            Let's connect
+            Let&apos;s connect
             <Link2 />
           </Button>
         </Link>

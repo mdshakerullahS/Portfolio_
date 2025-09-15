@@ -62,7 +62,7 @@ const Header = () => {
 
           <Link href="/contact">
             <Button className="flex items-end">
-              Let's connect
+              Let&apos;s connect
               <Link2 />
             </Button>
           </Link>
