@@ -1,27 +1,22 @@
 import { NextResponse } from "next/server";
 
 export async function middleware(request) {
-  const { pathname } = request.nextUrl;
   const token = request.cookies.get("token")?.value;
 
-  if (pathname.startsWith("/admin/dashboard")) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/admin/login", request.url));
-    }
+  if (!token) {
+    return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/verify-token`, {
-      headers: {
-        cookie: `token=${token}`,
-      },
-      credentials: "include",
+      headers: { cookie: `token=${token}` },
     });
 
-    if (!res.ok) {
+    const data = await res.json();
+    if (!data.success) {
       return NextResponse.redirect(new URL("/admin/login", request.url));
     }
-  } catch (error) {
+  } catch {
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
