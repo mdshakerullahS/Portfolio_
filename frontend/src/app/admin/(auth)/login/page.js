@@ -27,7 +27,7 @@ const Page = () => {
       if (!result.success) throw new Error(result.message || "Login failed");
 
       reset();
-      router.push("/admin/dashboard");
+      if (result.success) router.push("/admin/dashboard");
     } catch (err) {
       console.error("Error logging in:", err);
     }
