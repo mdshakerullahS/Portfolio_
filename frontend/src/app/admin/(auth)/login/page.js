@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 const Page = () => {
@@ -42,7 +43,8 @@ const Page = () => {
         throw new Error("Failed to login");
       }
 
-      await res.json();
+      const result = await res.json();
+      if (!result.success) throw new Error(result.message || "Login failed");
 
       reset();
       router.push("/admin/dashboard");
