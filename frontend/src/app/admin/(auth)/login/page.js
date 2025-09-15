@@ -2,31 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 const Page = () => {
   const { register, handleSubmit, reset } = useForm();
   const router = useRouter();
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/verify-token`,
-          {
-            credentials: "include",
-          }
-        );
-        const data = await res.json();
-
-        if (data.success) router.push("/admin/dashboard");
-      } catch (err) {
-        console.log("Not logged in");
-      }
-    };
-    checkAuth();
-  }, [router]);
 
   const onSubmit = async (data) => {
     try {
