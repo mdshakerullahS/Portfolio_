@@ -15,6 +15,7 @@ export async function middleware(request) {
       headers: {
         cookie: `token=${token}`,
       },
+      credentials: "include",
     });
 
     if (!res.ok) {
