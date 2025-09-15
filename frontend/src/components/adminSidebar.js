@@ -77,7 +77,6 @@ const AdminSidebar = () => {
               } hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-md`}
             >
               <Link
-                key={item.label}
                 href={item.href}
                 className="text-sidebar-foreground flex items-center gap-3 px-2 my-2 transition-all duration-500"
               >
