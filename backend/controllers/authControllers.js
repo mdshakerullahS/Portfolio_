@@ -45,9 +45,11 @@ export const login = async (req, res) => {
 };
 
 export const verifyToken = (req, res) => {
-  const token = req.cookies.token;
+  const token = req.cookies[token];
   if (!token) {
-    return res.status(401).json({ success: false, message: "No token" });
+    return res
+      .status(401)
+      .json({ success: false, message: "No authenticated" });
   }
 
   try {
