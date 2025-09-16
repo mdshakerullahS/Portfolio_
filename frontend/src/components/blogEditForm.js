@@ -34,7 +34,7 @@ const BlogEditForm = ({ setArticles, selectedArticle, setSelectedArticle }) => {
 
     try {
       const res = await fetch(
-        `http://localhost:8080/api/blogs/${selectedArticle._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/blogs/${selectedArticle._id}`,
         {
           method: "PUT",
           body: formData,

@@ -28,11 +28,14 @@ const BlogForm = ({ setArticles }) => {
     formData.append("image", file);
 
     try {
-      const res = await fetch(`http://localhost:8080/api/blogs/create`, {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/blogs/create`,
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Failed to create blog");

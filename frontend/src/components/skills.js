@@ -16,7 +16,7 @@ const Skills = () => {
   useEffect(() => {
     const getSkills = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/skills", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skills`, {
           credentials: "include",
         });
 

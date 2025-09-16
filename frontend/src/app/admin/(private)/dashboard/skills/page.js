@@ -19,7 +19,7 @@ const Page = () => {
   useEffect(() => {
     const getSkills = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/skills", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skills`, {
           credentials: "include",
         });
 
@@ -39,10 +39,13 @@ const Page = () => {
     try {
       if (!window.confirm("Are you sure?")) return;
 
-      const res = await fetch(`http://localhost:8080/api/skills/${id}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/skills/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Failed to delete");

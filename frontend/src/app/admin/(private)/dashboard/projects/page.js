@@ -34,10 +34,13 @@ const Page = () => {
     try {
       if (!window.confirm("Are you sure?")) return;
 
-      const res = await fetch(`http://localhost:8080/api/projects/${id}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/projects/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Failed to delete");

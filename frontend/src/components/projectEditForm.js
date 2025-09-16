@@ -42,7 +42,7 @@ const ProjectEditForm = ({
 
     try {
       const res = await fetch(
-        `http://localhost:8080/api/projects/${selectedProject._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/projects/${selectedProject._id}`,
         {
           method: "PUT",
           body: formData,

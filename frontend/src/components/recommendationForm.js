@@ -27,10 +27,13 @@ const RecommendationForm = () => {
     formData.append("image", file);
 
     try {
-      const res = await fetch(`http://localhost:8080/api/testimonials/add`, {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/recommendations/add`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Failed to add skill");

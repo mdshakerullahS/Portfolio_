@@ -5,7 +5,7 @@ import Link from "next/link";
 const Projects = async () => {
   let projects = [];
   try {
-    const res = await fetch("http://localhost:8080/api/projects", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects`, {
       credentials: "include",
     });
 

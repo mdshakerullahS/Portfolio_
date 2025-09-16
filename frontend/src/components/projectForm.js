@@ -30,11 +30,14 @@ const ProjectForm = ({ setProjects }) => {
     formData.append("image", file);
 
     try {
-      const res = await fetch(`http://localhost:8080/api/projects/add`, {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/projects/add`,
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Failed to add project");

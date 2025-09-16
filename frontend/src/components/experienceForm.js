@@ -51,10 +51,13 @@ const ExperienceForm = () => {
 
     console.log(formData);
     try {
-      const res = await fetch(`http://localhost:8080/api/experiences/add`, {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/experiences/add`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Failed to add skill");
