@@ -1,17 +1,29 @@
+"use client";
+
 import AdminSidebar from "@/components/adminSidebar";
 import DashboardHeader from "@/components/dashboardHeader";
-import { headers } from "next/headers";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export default async function AdminLayout({ children }) {
-  const cookie = headers().get("cookie") || "";
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/verify-token`, {
-    headers: { cookie },
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    return <Link href="/admin/login">Login</Link>;
-  }
+export default function AdminLayout({ children }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/verify-token`,
+          { credentials: "include" }
+        );
+
+        if (!res.ok) router.push("/admin/login");
+      } catch (error) {
+        router.push("/admin/login");
+      }
+    };
+    checkAuth();
+  }, [router]);
+
   return (
     <div>
       <div className="border border-sidebar-border fixed top-0 inset-x-0 z-50">
