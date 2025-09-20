@@ -87,8 +87,10 @@ export function DataProvider({ children }) {
         articles,
         feedbacks,
         setLoading,
+        setExperiences,
         setProjects,
         setArticles,
+        setFeedbacks,
       }}
     >
       {children}
