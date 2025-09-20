@@ -11,7 +11,6 @@ import {
   Briefcase,
   FolderKanban,
   Quote,
-  Star,
   NotebookText,
   Inbox,
 } from "lucide-react";

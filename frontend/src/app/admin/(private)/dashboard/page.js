@@ -29,7 +29,7 @@ const quickStats = [
   {
     label: "Total Feedbacks",
     icon: Quote,
-    href: "/admin/dashboard/testimonials",
+    href: "/admin/dashboard/feedbacks",
   },
   {
     label: "Total Articles",
