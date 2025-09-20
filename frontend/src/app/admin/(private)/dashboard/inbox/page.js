@@ -29,6 +29,8 @@ const Page = () => {
   }, []);
 
   const deleteMessage = async (id) => {
+    if (!window.confirm("Are you sure?")) return;
+
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/messages/${id}`,
