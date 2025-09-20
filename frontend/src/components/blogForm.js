@@ -12,12 +12,13 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { FileUp, Plus } from "lucide-react";
+import { FileUp, Loader2, Plus } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 
 const BlogForm = ({ setArticles }) => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [file, setFile] = useState("");
   const { register, handleSubmit, reset } = useForm();
 
@@ -28,6 +29,7 @@ const BlogForm = ({ setArticles }) => {
     formData.append("image", file);
 
     try {
+      setLoading(true);
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/blogs/create`,
         {
@@ -48,8 +50,11 @@ const BlogForm = ({ setArticles }) => {
       setOpen(false);
     } catch (err) {
       console.error("Error submitting blog:", err);
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -124,7 +129,13 @@ const BlogForm = ({ setArticles }) => {
                 Cancel
               </Button>
             </DialogClose>
-            <Button type="submit">Add Blog</Button>
+            <Button type="submit">
+              {loading ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                "Add blog"
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

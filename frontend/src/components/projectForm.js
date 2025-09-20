@@ -12,12 +12,13 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { FileUp, Plus } from "lucide-react";
+import { FileUp, Loader, Plus } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 
 const ProjectForm = ({ setProjects }) => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [file, setFile] = useState("");
   const { register, handleSubmit, reset } = useForm();
 
@@ -30,6 +31,7 @@ const ProjectForm = ({ setProjects }) => {
     formData.append("image", file);
 
     try {
+      setLoading(true);
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/projects/add`,
         {
@@ -50,6 +52,8 @@ const ProjectForm = ({ setProjects }) => {
       setOpen(false);
     } catch (err) {
       console.error("Error submitting blog:", err);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -142,7 +146,13 @@ const ProjectForm = ({ setProjects }) => {
                 Cancel
               </Button>
             </DialogClose>
-            <Button type="submit">Add Blog</Button>
+            <Button type="submit">
+              {loading ? (
+                <Loader size={18} className="animate-spin" />
+              ) : (
+                "Add project"
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

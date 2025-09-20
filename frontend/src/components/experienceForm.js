@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -13,10 +12,12 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useForm, useFieldArray } from "react-hook-form";
-import { FileUp, Plus, X } from "lucide-react";
+import { Loader2, Plus, X } from "lucide-react";
+import { useState } from "react";
 
 const ExperienceForm = () => {
-  const [file, setFile] = useState("");
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { register, control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -26,8 +27,7 @@ const ExperienceForm = () => {
       startDate: "",
       endDate: "",
       tasks: [""],
-      technologies: [""],
-      image: null,
+      technologies: "",
     },
   });
 
@@ -37,41 +37,49 @@ const ExperienceForm = () => {
   });
 
   const onSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append("role", data.role);
-    formData.append("companyName", data.company);
-    formData.append("location", data.location);
-    formData.append("startDate", data.startDate);
-    formData.append("endDate", data.endDate);
-    data.tasks.forEach((task, i) => formData.append(`tasks[${i}]`, task));
-    data.technologies
-      .split(",")
-      .forEach((tech, i) => formData.append(`technologies[${i}]`, tech));
-    formData.append("image", file);
+    const payload = {
+      ...data,
+      tasks: data.tasks.filter((task) => task.trim() !== ""),
+      technologies: data.technologies
+        ? data.technologies.split(",").map((tech) => tech.trim())
+        : [],
+    };
 
-    console.log(formData);
+    console.log(payload);
     try {
+      setLoading(true);
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/experiences/add`,
         {
           method: "POST",
-          body: formData,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+          credentials: "include",
         }
       );
 
       if (!res.ok) {
-        throw new Error("Failed to add skill");
+        throw new Error("Failed to add experience");
       }
 
       reset();
+      setOpen(false);
     } catch (err) {
-      console.error("Error submitting skill:", err);
+      console.error("Error submitting experience:", err);
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="flex items-center justify-center gap-2 px-3 py-1 bg-card/1 text-card-foreground rounded-md border border-border backdrop-blur-md cursor-pointer">
+        <button
+          onClick={() => setOpen(true)}
+          className="flex items-center justify-center gap-2 px-3 py-1 bg-card/1 text-card-foreground rounded-md border border-border backdrop-blur-md cursor-pointer"
+        >
           <span className="text-sm lg:text-base text-center">
             Add Experience
           </span>
@@ -99,7 +107,7 @@ const ExperienceForm = () => {
               Company
               <input
                 type="text"
-                {...register("company")}
+                {...register("companyName")}
                 className="bg-input/40 px-3 pt-1 pb-1.5 font-normal rounded-md border border-border"
               />
             </label>
@@ -161,35 +169,6 @@ const ExperienceForm = () => {
                 className="bg-input/40 px-3 pt-1 pb-1.5 font-normal rounded-md border border-border"
               />
             </label>
-            <label className="w-fit bg-input/40 p-3 font-normal rounded-md border border-border cursor-pointer">
-              {!file && (
-                <div className="flex gap-3">
-                  Upload Logo <FileUp />
-                </div>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                {...register("image")}
-                onChange={(e) => {
-                  const selectedFile = e.target.files?.[0];
-                  if (selectedFile instanceof File) {
-                    setFile(selectedFile);
-                  } else {
-                    setFile(null);
-                  }
-                }}
-                className="hidden"
-              />
-
-              {file instanceof File && (
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt="Preview"
-                  className="mt-2 w-32 h-20 object-cover rounded"
-                />
-              )}
-            </label>
           </div>
           <DialogFooter>
             <DialogClose asChild>
@@ -197,7 +176,13 @@ const ExperienceForm = () => {
                 Cancel
               </Button>
             </DialogClose>
-            <Button type="submit">Add Experience</Button>
+            <Button type="submit">
+              {loading ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                "Add experience"
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

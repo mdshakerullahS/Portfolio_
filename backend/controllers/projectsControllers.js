@@ -18,17 +18,17 @@ export const getProjects = async (req, res) => {
 
 export const addProject = async (req, res) => {
   try {
-    const blog = new Project({
+    const project = new Project({
       title: req.body.title,
       description: req.body.description,
       imageURL: req.file.path,
       cloudinaryID: req.file.filename,
     });
-    await blog.save();
+    await project.save();
     return res.status(201).json({
       success: true,
       message: "Project saved successfully",
-      blog,
+      project,
     });
   } catch (error) {
     return res.status(500).json({
@@ -41,7 +41,7 @@ export const addProject = async (req, res) => {
 export const updateProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description } = req.body;
+    const { title, description, featured } = req.body;
 
     const project = await Project.findById(id);
     if (!project) {
@@ -54,7 +54,8 @@ export const updateProject = async (req, res) => {
     if (
       !req.file &&
       title === project.title &&
-      description === project.description
+      description === project.description &&
+      (featured === undefined || featured === project.featured)
     ) {
       return res.status(400).json({
         success: false,
@@ -71,6 +72,7 @@ export const updateProject = async (req, res) => {
 
     project.title = title || project.title;
     project.description = description || project.description;
+    project.featured = featured || project.featured;
 
     const updatedProject = await project.save();
 
@@ -80,6 +82,7 @@ export const updateProject = async (req, res) => {
       updatedProject,
     });
   } catch (error) {
+    console.log(error.message);
     return res.status(500).json({
       success: false,
       message: "Project couldn't update",

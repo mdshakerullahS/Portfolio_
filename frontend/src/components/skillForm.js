@@ -12,15 +12,17 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { useState } from "react";
 
 const SkillForm = () => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skills/add`, {
         method: "POST",
         headers: {
@@ -38,6 +40,8 @@ const SkillForm = () => {
       setOpen(false);
     } catch (err) {
       console.error("Error submitting skill:", err);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -45,10 +49,10 @@ const SkillForm = () => {
       <DialogTrigger asChild>
         <button
           onClick={() => setOpen(true)}
-          className="w-[80px] lg:w-[112px] h-[80px] lg:h-[112px] flex flex-col items-center justify-center gap-1 bg-card/1 max-w-[400px] text-card-foreground rounded-md border border-border overflow-hidden backdrop-blur-md hover:scale-[1.1] transition-all duration-350"
+          className="flex items-center justify-center gap-2 px-3 py-1 bg-card/1 text-card-foreground rounded-md border border-border backdrop-blur-md cursor-pointer"
         >
-          <Plus size={36} />
           <span className="text-sm lg:text-base text-center">Add Skill</span>
+          <Plus size={20} />
         </button>
       </DialogTrigger>
 
@@ -83,7 +87,13 @@ const SkillForm = () => {
                 Cancel
               </Button>
             </DialogClose>
-            <Button type="submit">Add Skill</Button>
+            <Button type="submit">
+              {loading ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                "Add skill"
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

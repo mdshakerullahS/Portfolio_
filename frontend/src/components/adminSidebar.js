@@ -25,11 +25,10 @@ const sidebarItems = [
     href: "/admin/dashboard/experiences",
   },
   { label: "Projects", icon: FolderKanban, href: "/admin/dashboard/projects" },
-  { label: "Testimonials", icon: Star, href: "/admin/dashboard/testimonials" },
   {
-    label: "Recommendations",
+    label: "Feedbacks",
     icon: Quote,
-    href: "/admin/dashboard/recommendations",
+    href: "/admin/dashboard/feedbacks",
   },
   { label: "Blogs", icon: NotebookText, href: "/admin/dashboard/blogs" },
   { label: "Inbox", icon: Inbox, href: "/admin/dashboard/inbox" },

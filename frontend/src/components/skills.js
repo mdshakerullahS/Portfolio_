@@ -1,5 +1,6 @@
 "use client";
 
+import { useData } from "@/app/context/Context";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import StackIcon from "tech-stack-icons";
@@ -7,39 +8,21 @@ import StackIcon from "tech-stack-icons";
 const Skills = () => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [skills, setSkills] = useState([]);
+
+  const { skills } = useData();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    const getSkills = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skills`, {
-          credentials: "include",
-        });
-
-        if (!res.ok) {
-          throw new Error("Unauthorized");
-        }
-        const data = await res.json();
-        setSkills(data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getSkills();
-  }, []);
-
   return (
-    <section
+    <div
       className={`${
         skills.length <= 0 ? "hidden" : "flex"
-      } flex-col items-center gap-4 md:gap-5 lg:gap-6 py-8 md:py-10 lg:py-12`}
+      } flex-col items-center gap-4 md:gap-5 lg:gap-6 min-w-[300px]`}
     >
-      <h2 className="text-lg md:text-xl lg:text-2xl text-foreground font-bold">
-        Skills & Technologies
+      <h2 className="text-base md:text-lg lg:text-xl text-foreground font-bold">
+        Technical Skills
       </h2>
 
       <div className="w-full flex items-center justify-center gap-4 flex-wrap">
@@ -68,7 +51,7 @@ const Skills = () => {
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 };
 

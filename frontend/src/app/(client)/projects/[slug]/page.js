@@ -1,23 +1,13 @@
+"use client";
+
+import { useData } from "@/app/context/Context";
 import Image from "next/image";
+import React from "react";
 
-const Page = async ({ params }) => {
-  const { slug } = await params;
+const Page = ({ params }) => {
+  const { projects } = useData();
+  const { slug } = React.use(params);
 
-  try {
-    const res = await fetch("http://localhost:8080/api/projects", {
-      credentials: "include",
-    });
-
-    if (!res.ok) {
-      throw new Error("Unauthorized");
-    }
-
-    const data = await res.json();
-    const projects = await data.data;
-    return projects;
-  } catch (error) {
-    console.log(error);
-  }
   const post = projects.find((project) => {
     if (project._id === slug) {
       return project;

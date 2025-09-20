@@ -1,0 +1,46 @@
+import Experience from "./experience";
+import Skills from "./skills";
+
+const AboutContent = () => {
+  return (
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="bg-card/1 px-4 md:px-6 lg:px-8 py-4 lg:py-6 rounded-md border border-border shadow-lg backdrop-blur-md">
+          <p className="text-card-foreground lg:text-lg pl-4 lg:pl-6 py-2 border-l-2 border-border">
+            I&apos;m a full-stack developer skilled in&nbsp;
+            <strong>
+              React.js, Next.js, Tailwind CSS, Node.js, Express.js, and MongoDB
+            </strong>
+            . I enjoy building responsive and user-friendly web applications
+            that combine clean design with solid functionality.
+            <br />
+            <br />
+            My journey in web development started with front-end design, where I
+            quickly realized the power of turning ideas into interactive
+            experiences. Over time, I expanded into full-stack development to
+            bridge the gap between front-end creativity and back-end logic.
+            <br />
+            Passionate about problem-solving and continuous learning, I focus on
+            writing efficient code, following best practices, and delivering
+            meaningful digital experiences. I&apos;m particularly interested in
+            building tools that improve productivity and user engagement.
+            <br />
+            <br />
+            Currently, I&apos;m seeking remote internship or freelance
+            opportunities where I can apply my skills, contribute to impactful
+            projects, and grow as a developer. Outside of coding, I explore
+            design tools like&nbsp;
+            <strong>Figma</strong> and keep up with emerging technologies to
+            stay ahead in the field.
+          </p>
+        </div>
+        <div className="bg-card/1 px-4 md:px-6 lg:px-8 py-4 lg:py-6 rounded-md border border-border shadow-lg backdrop-blur-md">
+          <Skills />
+        </div>
+      </div>
+      <Experience />
+    </div>
+  );
+};
+
+export default AboutContent;

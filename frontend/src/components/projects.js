@@ -1,33 +1,25 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowRight, SquareArrowOutUpRight } from "lucide-react";
 import Link from "next/link";
+import { useData } from "@/app/context/Context";
 
-const Projects = async () => {
-  let projects = [];
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects`, {
-      credentials: "include",
-    });
+const Projects = () => {
+  const { projects } = useData();
 
-    if (!res.ok) {
-      throw new Error("Unauthorized");
-    }
-
-    const data = await res.json();
-    projects = await data.data;
-    return projects;
-  } catch (error) {
-    console.log(error);
-  }
+  const featuredProjects = projects.filter((project) => {
+    if (project.featured === true) return project;
+  });
 
   return (
     <section
       id="projects"
       className={`${
-        projects.length < 1 ? "hidden" : "flex"
+        featuredProjects.length < 1 ? "hidden" : "flex"
       } flex-col items-center gap-4 md:gap-5 lg:gap-6 py-8 md:py-10 lg:py-12`}
     >
-      <h2 className="text-lg md:text-xl lg:text-2xl text-foreground font-bold">
+      <h2 className="text-xl md:text-2xl lg:text-4xl text-foreground font-bold">
         Featured Projects
       </h2>
 
@@ -64,8 +56,10 @@ const Projects = async () => {
                   <ArrowRight size={18} />
                 </Link>
                 <Link
-                  href={""}
-                  className="px-3 pt-1 pb-1.5 bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground text-sm rounded-md backdrop-blur-2xl flex items-end gap-2"
+                  href={project.demoURL || ""}
+                  className={`px-3 pt-1 pb-1.5 bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground text-sm rounded-md backdrop-blur-2xl ${
+                    project.demoURL ? "flex" : "hidden"
+                  } items-end gap-2`}
                 >
                   Live demo
                   <SquareArrowOutUpRight size={16} />

@@ -1,31 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useData } from "@/app/context/Context";
 
 const Page = () => {
-  const [articles, setArticles] = useState([]);
-
-  useEffect(() => {
-    const getArticles = async () => {
-      try {
-        const res = await fetch("http://localhost:8080/api/blogs", {
-          credentials: "include",
-        });
-
-        if (!res.ok) {
-          throw new Error("Unauthorized");
-        }
-
-        const data = await res.json();
-        setArticles(data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getArticles();
-  }, []);
+  const { articles } = useData();
 
   return (
     <div className="min-h-[80vh] pb-8">

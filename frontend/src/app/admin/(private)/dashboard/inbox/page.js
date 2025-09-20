@@ -31,7 +31,7 @@ const Page = () => {
   const deleteMessage = async (id) => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/messages${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/messages/${id}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -52,6 +52,13 @@ const Page = () => {
       console.log(error);
     }
   };
+
+  if (messages.length < 1)
+    return (
+      <div className="h-full flex items-center justify-center">
+        <p className="text-sm md:text-base lg:text-lg">Inbox is empty.</p>
+      </div>
+    );
 
   return (
     <div className="min-h-[100vh]">

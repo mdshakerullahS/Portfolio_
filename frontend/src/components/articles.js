@@ -1,26 +1,17 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useData } from "@/app/context/Context";
 
-const Articles = async () => {
-  let articles = [];
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`, {
-      credentials: "include",
-    });
+const Articles = () => {
+  const { articles } = useData();
 
-    if (!res.ok) {
-      throw new Error("Unauthorized");
-    }
-
-    const data = await res.json();
-    articles = await data.data;
-  } catch (error) {
-    console.log(error);
-  }
   const featuredArticles = articles.filter((article) => {
     if (article.featured === true) return article;
   });
+
   return (
     <section
       id="blogs"
@@ -28,8 +19,8 @@ const Articles = async () => {
         featuredArticles.length < 1 ? "hidden" : "flex"
       } flex-col items-center gap-4 md:gap-5 lg:gap-6 py-8 md:py-10 lg:py-12`}
     >
-      <h2 className="text-lg md:text-xl lg:text-2xl text-foreground font-bold">
-        Top Articles
+      <h2 className="text-xl md:text-2xl lg:text-4xl text-foreground font-bold">
+        Featured Articles
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

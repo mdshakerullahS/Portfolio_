@@ -1,63 +1,57 @@
-import React from "react";
+"use client";
 
-const skills = [
-  "React.js",
-  "Next.js",
-  "JavaScript",
-  "Node.js",
-  "Express.js",
-  "Tailwind CSS",
-  "MongoDB",
-];
+import { useData } from "@/app/context/Context";
 
 const Experience = () => {
+  const { experiences } = useData();
+
   return (
-    <section className="flex flex-col items-center gap-6 py-12">
-      <h2 className="text-2xl text-foreground font-bold">
-        Professional Experience
+    <div
+      className={`${
+        experiences.length < 1 ? "hidden" : "flex"
+      } flex-col items-center gap-6`}
+    >
+      <h2 className="text-base md:text-lg lg:text-xl text-foreground font-bold">
+        Professional Experiences
       </h2>
-      <div className="bg-card/1 text-card-foreground rounded-xl backdrop-blur-md p-6">
-        <div className="flex items-start justify-between">
-          <div>
-            <h3 className="text-xl font-bold">Freelance Web Developer</h3>
-            <p className="text-lg">Independent Contractor</p>
-          </div>
-          <p className="text-sm">2024 - Present</p>
-        </div>
-        <ul className="list-disc p-4">
-          <li>
-            Delivered custom web solutions for diverse clients across multiple
-            industries.
-          </li>
-          <li>
-            Collaborated directly with stakeholders to transform ideas into
-            pixel-perfect reality.
-          </li>
-          <li>
-            Built scalable, performance-optimized applications with modern tech
-            stacks.
-          </li>
-          <li>
-            Maintained 100% client satisfaction through clear communication and
-            timely delivery.
-          </li>
-          <li>
-            Specialized in responsive design and seamless user experience
-            optimization.
-          </li>
-        </ul>
-        <div className="flex items-center gap-2">
-          {skills.map((skill, index) => (
-            <div
-              key={index}
-              className="px-4 pt-1 pb-1.5 bg-accent-foreground/5 text-sm rounded-full backdrop-blur-2xl"
-            >
-              {skill}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {experiences.map((exp, index) => (
+          <div
+            key={index}
+            className="w-full bg-card/1 px-4 md:px-6 lg:px-8 py-4 lg:py-6 rounded-md border border-border shadow-lg backdrop-blur-md"
+          >
+            <div className="flex items-start justify-between">
+              <div>
+                <h4 className="text-base md:text-lg lg:text-xl font-bold">
+                  {exp.role}
+                </h4>
+                <p className="text-sm md:text-base lg:text-lg text-muted-foreground">
+                  {exp.companyName}
+                </p>
+              </div>
+              <p className="text-xs md:text-sm lg:text-base text-muted-foreground">
+                2024 - Present
+              </p>
             </div>
-          ))}
-        </div>
+            <ul className="list-disc flex flex-col gap-2 text-sm md:text-base lg:text-lg font-light p-4">
+              {exp.tasks.map((task, index) => (
+                <li key={index}>{task}</li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap items-center gap-2">
+              {exp.technologies.map((tech, index) => (
+                <div
+                  key={index}
+                  className="px-4 pt-1 pb-1.5 bg-accent text-accent-foreground text-xs md:text-sm lg:text-base rounded-full backdrop-blur-2xl shadow-md"
+                >
+                  {tech}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
-    </section>
+    </div>
   );
 };
 

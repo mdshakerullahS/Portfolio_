@@ -1,34 +1,49 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BlogForm from "@/components/blogForm";
-import { Trash, X } from "lucide-react";
+import { PinIcon, PinOff, Trash, X } from "lucide-react";
 import Image from "next/image";
 import BlogEditForm from "@/components/blogEditForm";
+import { useData } from "@/app/context/Context";
 
 const Page = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [articles, setArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState(null);
 
-  useEffect(() => {
-    const getArticles = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`, {
-          credentials: "include",
-        });
+  const { articles, setArticles } = useData();
 
-        if (!res.ok) {
-          throw new Error("Unauthorized");
+  const pinArticles = async (id) => {
+    try {
+      const article = articles.find((a) => a._id === id);
+      if (!article) return;
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/blogs/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ featured: !article.featured }),
+          credentials: "include",
         }
-        const data = await res.json();
-        setArticles(data.data);
-      } catch (error) {
-        console.log(error);
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to pin article");
       }
-    };
-    getArticles();
-  }, []);
+
+      const result = await res.json();
+      setArticles((prev) =>
+        prev.map((art) =>
+          art._id === result.updatedArticle._id ? result.updatedArticle : art
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const deleteArticle = async (id) => {
     try {
@@ -70,16 +85,27 @@ const Page = () => {
           } w-full max-h-[420px] flex flex-col bg-card border border-border rounded-md overflow-hidden`}
         >
           {articles.map((article) => (
-            <h3
-              key={article._id}
-              onClick={() => {
-                setSelectedArticle(article);
-                setIsOpen(true);
-              }}
-              className="text-lg font-semibold px-4 py-2 border border-border cursor-pointer"
-            >
-              {article.title}
-            </h3>
+            <div key={article._id} className="flex items-center">
+              <h3
+                onClick={() => {
+                  setSelectedArticle(article);
+                  setIsOpen(true);
+                }}
+                className="w-full text-lg font-semibold px-4 py-2 cursor-pointer"
+              >
+                {article.title}
+              </h3>
+              <div
+                onClick={() => pinArticles(article._id)}
+                className="p-4 hover:bg-accent rounded-md cursor-pointer"
+              >
+                {article.featured ? (
+                  <PinOff size={18} />
+                ) : (
+                  <PinIcon size={18} />
+                )}
+              </div>
+            </div>
           ))}
         </div>
         <div

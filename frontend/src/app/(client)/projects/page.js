@@ -1,32 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { ArrowRight, SquareArrowOutUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useData } from "@/app/context/Context";
 
 const Page = () => {
-  const [projects, setProjects] = useState([]);
+  const { projects } = useData();
 
-  useEffect(() => {
-    const getProjects = async () => {
-      try {
-        const res = await fetch("http://localhost:8080/api/projects", {
-          credentials: "include",
-        });
-
-        if (!res.ok) {
-          throw new Error("Unauthorized");
-        }
-
-        const data = await res.json();
-        setProjects(data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getProjects();
-  }, []);
   return (
     <div className="min-h-[80vh] pb-8">
       {projects.length > 0 ? (
@@ -56,17 +37,17 @@ const Page = () => {
 
                 <div className="w-full flex items-center justify-between">
                   <Link
-                    href={`/projects/${project.title
-                      .toLowerCase()
-                      .replaceAll(" ", "-")}`}
+                    href={`/projects/${project._id}`}
                     className="px-3 pt-1 pb-1.5 bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground text-sm rounded-md backdrop-blur-2xl flex items-end gap-2"
                   >
                     View details
                     <ArrowRight size={18} />
                   </Link>
                   <Link
-                    href={""}
-                    className="px-3 pt-1 pb-1.5 bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground text-sm rounded-md backdrop-blur-2xl flex items-end gap-2"
+                    href={project.demoURL || ""}
+                    className={`px-3 pt-1 pb-1.5 bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground text-sm rounded-md backdrop-blur-2xl ${
+                      project.demoURL ? "flex" : "hidden"
+                    } items-end gap-2`}
                   >
                     Live demo
                     <SquareArrowOutUpRight size={16} />

@@ -41,7 +41,7 @@ export const createBlog = async (req, res) => {
 export const updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, content } = req.body;
+    const { title, content, featured } = req.body;
 
     const blog = await Blog.findById(id);
     if (!blog) {
@@ -51,7 +51,12 @@ export const updateBlog = async (req, res) => {
       });
     }
 
-    if (!req.file && title === blog.title && content === blog.content) {
+    if (
+      !req.file &&
+      title === blog.title &&
+      content === blog.content &&
+      (featured === undefined || featured === blog.featured)
+    ) {
       return res.status(400).json({
         success: false,
         message: "No changes detected",
@@ -67,8 +72,9 @@ export const updateBlog = async (req, res) => {
       }
     }
 
-    if (title) blog.title = title;
-    if (content) blog.content = content;
+    blog.title = title || blog.title;
+    blog.content = content || blog.content;
+    blog.featured = featured || blog.featured;
 
     const updatedBlog = await blog.save();
 
@@ -78,6 +84,8 @@ export const updateBlog = async (req, res) => {
       updatedBlog,
     });
   } catch (error) {
+    console.log(error.message);
+
     return res.status(500).json({
       success: false,
       message: "Blog couldn't update",

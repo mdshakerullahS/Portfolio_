@@ -5,7 +5,7 @@ import {
   deleteExperience,
   getExperiences,
   updateExperience,
-} from "../controllers/experiencesControllers";
+} from "../controllers/experiencesControllers.js";
 
 const router = express.Router();
 

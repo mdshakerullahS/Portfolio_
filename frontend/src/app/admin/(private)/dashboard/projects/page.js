@@ -1,34 +1,49 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProjectForm from "@/components/projectForm";
-import { Edit, Trash, X } from "lucide-react";
+import { PinIcon, PinOff, Trash, X } from "lucide-react";
 import ProjectEditForm from "@/components/projectEditForm";
 import Image from "next/image";
+import { useData } from "@/app/context/Context";
 
 const Page = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
 
-  useEffect(() => {
-    const getProjects = async () => {
-      try {
-        const res = await fetch("http://localhost:8080/api/projects", {
-          credentials: "include",
-        });
+  const { projects, setProjects } = useData();
 
-        if (!res.ok) {
-          throw new Error("Unauthorized");
+  const pinProject = async (id) => {
+    try {
+      const project = projects.find((p) => p._id === id);
+      if (!project) return;
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/projects/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ featured: !project.featured }),
+          credentials: "include",
         }
-        const data = await res.json();
-        setProjects(data.data);
-      } catch (error) {
-        console.log(error);
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to pin project");
       }
-    };
-    getProjects();
-  }, []);
+
+      const result = await res.json();
+      setProjects((prev) =>
+        prev.map((pro) =>
+          pro._id === result.updatedProject._id ? result.updatedProject : pro
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const deleteProject = async (id) => {
     try {
@@ -56,6 +71,7 @@ const Page = () => {
       console.log(error);
     }
   };
+
   return (
     <div className="flex flex-col items-end">
       <div className="w-full flex justify-between mb-6">
@@ -69,16 +85,27 @@ const Page = () => {
           } w-full max-h-[420px] flex flex-col bg-card border border-border rounded-md overflow-hidden`}
         >
           {projects.map((project) => (
-            <h3
-              key={project._id}
-              onClick={() => {
-                setSelectedProject(project);
-                setIsOpen(true);
-              }}
-              className="text-lg font-semibold px-4 py-2 border border-border cursor-default"
-            >
-              {project.title}
-            </h3>
+            <div key={project._id} className="flex items-center">
+              <h3
+                onClick={() => {
+                  setSelectedProject(project);
+                  setIsOpen(true);
+                }}
+                className="w-full text-lg font-semibold px-4 py-2 cursor-pointer"
+              >
+                {project.title}
+              </h3>
+              <div
+                onClick={() => pinProject(project._id)}
+                className="p-4 hover:bg-accent rounded-md cursor-pointer"
+              >
+                {project.featured ? (
+                  <PinOff size={18} />
+                ) : (
+                  <PinIcon size={18} />
+                )}
+              </div>
+            </div>
           ))}
         </div>
         <div

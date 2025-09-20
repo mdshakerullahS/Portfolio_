@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { Edit, FileUp } from "lucide-react";
+import { Edit, FileUp, Loader } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 
@@ -22,6 +22,7 @@ const ProjectEditForm = ({
   setSelectedProject,
 }) => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [file, setFile] = useState("");
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -41,6 +42,7 @@ const ProjectEditForm = ({
     formData.append("image", file);
 
     try {
+      setLoading(true);
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/projects/${selectedProject._id}`,
         {
@@ -70,8 +72,11 @@ const ProjectEditForm = ({
       setOpen(false);
     } catch (err) {
       console.error("Error submitting project:", err);
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -158,7 +163,13 @@ const ProjectEditForm = ({
                 Cancel
               </Button>
             </DialogClose>
-            <Button type="submit">Update</Button>
+            <Button type="submit">
+              {loading ? (
+                <Loader size={18} className="animate-spin" />
+              ) : (
+                "Update"
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

@@ -1,32 +1,12 @@
 "use client";
 
+import { useData } from "@/app/context/Context";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const Page = ({ params }) => {
-  const [articles, setArticles] = useState([]);
-
+  const { articles } = useData();
   const { slug } = React.use(params);
-
-  useEffect(() => {
-    const getArticles = async () => {
-      try {
-        const res = await fetch("http://localhost:8080/api/blogs", {
-          credentials: "include",
-        });
-
-        if (!res.ok) {
-          throw new Error("Unauthorized");
-        }
-
-        const data = await res.json();
-        setArticles(data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getArticles();
-  }, []);
 
   const post = articles.find((article) => {
     if (article._id === slug) {
