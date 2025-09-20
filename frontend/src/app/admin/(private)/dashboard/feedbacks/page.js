@@ -55,10 +55,10 @@ const Page = () => {
             >
               <div>
                 <h3 className="text-base md:text-lg lg:text-xl font-semibold">
-                  {selectedFeedback.name}
+                  {feedback.name}
                 </h3>
                 <p className="text-xs md:text-sm lg:text-base text-muted-foreground">
-                  {`${selectedFeedback.role}, ${selectedFeedback.company}`}
+                  {`${feedback.role}, ${feedback.company}`}
                 </p>
               </div>
             </div>
